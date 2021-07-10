@@ -5,6 +5,8 @@ using Android.Runtime;
 using Android.Support.Wearable.Activity;
 using Android.Widget;
 
+using Com.Airbnb.Lottie;
+
 using System;
 
 namespace RealTimeHR
@@ -12,7 +14,11 @@ namespace RealTimeHR
     [Activity(Label = "@string/app_name", MainLauncher = true)]
     public class MainActivity : WearableActivity, ISensorEventListener
     {
-        private TextView textView;
+        private const float FACTOR = 0.146467f;
+
+        private LinearLayout rootLayout;
+        private LottieAnimationView lottieAnimationView;
+        private TextView hrMonitoringDataTextView;
 
         private SensorManager sensorManager;
         private Sensor hrSensor;
@@ -22,25 +28,47 @@ namespace RealTimeHR
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.MainMonitorLayout);
 
-            textView = FindViewById<TextView>(Resource.Id.RealTimeHRData);
+            rootLayout = FindViewById<LinearLayout>(Resource.Id.MainRootLayout);
+            lottieAnimationView = FindViewById<LottieAnimationView>(Resource.Id.HeartbeatAnimationView);
+            hrMonitoringDataTextView = FindViewById<TextView>(Resource.Id.RealTimeHRData);
 
             SetAmbientEnabled();
 
             RequestPermissions(new string[] { "android.permission.BODY_SENSORS" }, 0);
 
+            AdjustInset();
+
             sensorManager = GetSystemService(SensorService) as SensorManager;
             hrSensor = sensorManager.GetDefaultSensor(SensorType.HeartRate);
-            var list = sensorManager.GetSensorList(SensorType.HeartRate);
+        }
+
+        private void AdjustInset()
+        {
+            if (ApplicationContext.Resources.Configuration.IsScreenRound)
+            {
+                var inset = Convert.ToInt32(FACTOR * Resources.DisplayMetrics.WidthPixels);
+
+                rootLayout.SetPadding(inset, inset, inset, inset);
+            }
         }
 
         private void RegisterHRSensor()
         {
-            sensorManager?.RegisterListener(this, hrSensor, SensorDelay.Fastest);
+            if (hrSensor != null)
+            {
+                sensorManager?.RegisterListener(this, hrSensor, SensorDelay.Fastest);
+                lottieAnimationView.PlayAnimation();
+            }
+            else
+            {
+                hrMonitoringDataTextView.Text = "No HR Sensor :(";
+            }
         }
 
         private void UnregisterHRSensor()
         {
             sensorManager.UnregisterListener(this);
+            lottieAnimationView.PauseAnimation();
         }
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
@@ -66,7 +94,7 @@ namespace RealTimeHR
         {
             int hrData = (int)Math.Round(e.Values[0]);
 
-            RunOnUiThread(() => { textView.Text = hrData.ToString(); });
+            RunOnUiThread(() => { hrMonitoringDataTextView.Text = hrData.ToString(); });
         }
 
         protected override void OnPause()

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/box_inset_layout_padding"
+    android:layout_height="wrap_content"
     tools:deviceIds="wear">
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/MainRootLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
+        android:layout_height="wrap_content"
         app:boxedEdges="all">
         <TextView
             android:id="@+id/MainCautionText"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#F76868"
             android:text="This data is not recorded" />
         <com.airbnb.lottie.LottieAnimationView
@@ -29,15 +27,21 @@
             android:layout_gravity="center"
             app:lottie_fileName="lottie/heartbeat.json"
             app:lottie_loop="true"
-            app:lottie_autoPlay="true" />
+            app:lottie_autoPlay="false" />
         <TextView
             android:id="@+id/RealTimeHRData"
-            android:layout_below="@id/HeartbeatAnimationView"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:textColor="#F76868"
             android:text="Measuring" />
-    </RelativeLayout>
-</androidx.wear.widget.BoxInsetLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_shape"
+            android:text="Setting"/>
+    </LinearLayout>
+</ScrollView>
