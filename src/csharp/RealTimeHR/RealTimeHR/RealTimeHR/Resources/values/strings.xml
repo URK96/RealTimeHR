@@ -1,8 +1,18 @@
 <resources>
-    <string name="app_name">Real Time HR</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">Hello Square World!</string>
+  <string name="app_name">Real Time HR</string>
+
+  <string name="text_sensor_notfound">No HR Sensor :(</string>
+  
+  <string name="realtime_caution">This data is not recorded</string>
+  <string name="realtime_ready">Measuring</string>
+
+  <string name="monitoring_title">Monitoring</string>
+
+  <string name="text_minute">min.</string>  
+  <string name="text_enable">Enable</string>
+  <!--
+  This string is used for square devices and overridden by hello_world in
+  values-round/strings.xml for round devices.
+  -->
+  <string name="hello_world">Hello Square World!</string>
 </resources>
