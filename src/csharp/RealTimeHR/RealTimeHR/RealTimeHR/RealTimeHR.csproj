@@ -49,6 +49,11 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <ConsolePause>False</ConsolePause>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
+    <AndroidSupportedAbis />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -60,8 +65,11 @@
     <Compile Include="BackgroundSettingFragment.cs" />
     <Compile Include="Helper\HeartRateHelper.cs" />
     <Compile Include="Helper\RecordHelper.cs" />
+    <Compile Include="Helper\WorkerHelper.cs" />
     <Compile Include="HRChartFragment.cs" />
+    <Compile Include="Model\Monitoring.cs" />
     <Compile Include="MonitoringService.cs" />
+    <Compile Include="MonitoringWork.cs" />
     <Compile Include="RealTimeMeasureFragment.cs" />
     <Compile Include="MainViewPagerActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -117,6 +125,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Wear" Version="1.1.0.2" />
     <PackageReference Include="Xamarin.Android.Wear" Version="2.2.0" />
+    <PackageReference Include="Xamarin.AndroidX.Work.Runtime">
+      <Version>2.5.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\button_shape.xml" />
@@ -136,6 +147,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\styles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SplashLayout.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

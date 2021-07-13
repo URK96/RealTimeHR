@@ -2282,6 +2282,18 @@ namespace RealTimeHR
 			// aapt resource value: 0x7F050004
 			public const int action_choose_symmetrical_dimen = 2131034116;
 			
+			// aapt resource value: 0x7F050005
+			public const int enable_system_alarm_service_default = 2131034117;
+			
+			// aapt resource value: 0x7F050006
+			public const int enable_system_foreground_service_default = 2131034118;
+			
+			// aapt resource value: 0x7F050007
+			public const int enable_system_job_service_default = 2131034119;
+			
+			// aapt resource value: 0x7F050008
+			public const int workmanager_test_configuration = 2131034120;
+			
 			static Boolean()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -5245,61 +5257,64 @@ namespace RealTimeHR
 			public const int single_page_nav_drawer_peek_view = 2131558459;
 			
 			// aapt resource value: 0x7F0D003C
-			public const int support_simple_spinner_dropdown_item = 2131558460;
+			public const int SplashLayout = 2131558460;
 			
 			// aapt resource value: 0x7F0D003D
-			public const int watch_card_content = 2131558461;
+			public const int support_simple_spinner_dropdown_item = 2131558461;
 			
 			// aapt resource value: 0x7F0D003E
-			public const int wearable_drawer_view = 2131558462;
+			public const int watch_card_content = 2131558462;
 			
 			// aapt resource value: 0x7F0D003F
-			public const int ws_action_drawer_item_view = 2131558463;
+			public const int wearable_drawer_view = 2131558463;
 			
 			// aapt resource value: 0x7F0D0040
-			public const int ws_action_drawer_peek_view = 2131558464;
+			public const int ws_action_drawer_item_view = 2131558464;
 			
 			// aapt resource value: 0x7F0D0041
-			public const int ws_action_drawer_title_view = 2131558465;
+			public const int ws_action_drawer_peek_view = 2131558465;
 			
 			// aapt resource value: 0x7F0D0042
-			public const int ws_navigation_drawer_item_view = 2131558466;
+			public const int ws_action_drawer_title_view = 2131558466;
 			
 			// aapt resource value: 0x7F0D0043
-			public const int ws_navigation_drawer_view = 2131558467;
+			public const int ws_navigation_drawer_item_view = 2131558467;
 			
 			// aapt resource value: 0x7F0D0044
-			public const int ws_overlay_confirmation = 2131558468;
+			public const int ws_navigation_drawer_view = 2131558468;
 			
 			// aapt resource value: 0x7F0D0045
-			public const int ws_single_page_nav_drawer_1_item = 2131558469;
+			public const int ws_overlay_confirmation = 2131558469;
 			
 			// aapt resource value: 0x7F0D0046
-			public const int ws_single_page_nav_drawer_2_item = 2131558470;
+			public const int ws_single_page_nav_drawer_1_item = 2131558470;
 			
 			// aapt resource value: 0x7F0D0047
-			public const int ws_single_page_nav_drawer_3_item = 2131558471;
+			public const int ws_single_page_nav_drawer_2_item = 2131558471;
 			
 			// aapt resource value: 0x7F0D0048
-			public const int ws_single_page_nav_drawer_4_item = 2131558472;
+			public const int ws_single_page_nav_drawer_3_item = 2131558472;
 			
 			// aapt resource value: 0x7F0D0049
-			public const int ws_single_page_nav_drawer_5_item = 2131558473;
+			public const int ws_single_page_nav_drawer_4_item = 2131558473;
 			
 			// aapt resource value: 0x7F0D004A
-			public const int ws_single_page_nav_drawer_6_item = 2131558474;
+			public const int ws_single_page_nav_drawer_5_item = 2131558474;
 			
 			// aapt resource value: 0x7F0D004B
-			public const int ws_single_page_nav_drawer_7_item = 2131558475;
+			public const int ws_single_page_nav_drawer_6_item = 2131558475;
 			
 			// aapt resource value: 0x7F0D004C
-			public const int ws_single_page_nav_drawer_peek_view = 2131558476;
+			public const int ws_single_page_nav_drawer_7_item = 2131558476;
 			
 			// aapt resource value: 0x7F0D004D
-			public const int ws_single_page_nav_drawer_text = 2131558477;
+			public const int ws_single_page_nav_drawer_peek_view = 2131558477;
 			
 			// aapt resource value: 0x7F0D004E
-			public const int ws_wearable_drawer_view = 2131558478;
+			public const int ws_single_page_nav_drawer_text = 2131558478;
+			
+			// aapt resource value: 0x7F0D004F
+			public const int ws_wearable_drawer_view = 2131558479;
 			
 			static Layout()
 			{

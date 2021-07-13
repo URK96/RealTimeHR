@@ -25,11 +25,6 @@ namespace RealTimeHR.Helper
             {
                 Directory.CreateDirectory(recordPath);
             }
-
-            if (!File.Exists(recordFile))
-            {
-                File.CreateText(recordFile);
-            }
         }
 
         internal static void WriteData(string data)
@@ -38,7 +33,23 @@ namespace RealTimeHR.Helper
 
             try
             {
+                //using StreamWriter writer = new StreamWriter(new FileStream(recordFile, FileMode.Append, FileAccess.ReadWrite, FileShare.ReadWrite))
+
                 File.AppendAllLines(recordFile, new string[] { data });
+            }
+            catch (Exception ex)
+            {
+                Log.Error("RealTimeHRService", ex.ToString());
+            }
+        }
+
+        internal static void WriteText(string data)
+        {
+            CheckFile();
+
+            try
+            {
+                File.WriteAllText(Path.Combine(recordPath, $"{DateTime.Now:yyyyMMddHHmmss}.txt"), data);
             }
             catch (Exception ex)
             {

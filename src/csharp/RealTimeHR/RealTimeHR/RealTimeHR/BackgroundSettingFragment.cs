@@ -7,10 +7,17 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
+using AndroidX.Work;
+
+using RealTimeHR.Helper;
+using RealTimeHR.Model;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using static Android.OS.PowerManager;
 
 namespace RealTimeHR
 {
@@ -43,29 +50,43 @@ namespace RealTimeHR
         private void InitControl()
         {
             //TransitionManager.BeginDelayedTransition(rootLayout);
-            
+
             monitoringSwitch.CheckedChange += MonitoringSwitch_CheckedChange;
-            monitoringSwitch.Checked = false;
+            monitoringSwitch.Checked = MonitoringService.isRunning;
 
             intervalNP.MinValue = 1;
             intervalNP.MaxValue = 10;
         }
 
+
         private void MonitoringSwitch_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
-        {
+        { 
             Intent serviceIntent = new Intent(Activity, typeof(MonitoringService));
 
-            if (e.IsChecked)
+            try
             {
-                intervalSettingLayout.Visibility = ViewStates.Visible;
+                if (e.IsChecked)
+                {
+                    intervalSettingLayout.Visibility = ViewStates.Visible;
 
-                Activity.StartService(serviceIntent);
+                    //Application.Context.StartService(serviceIntent);
+                    Activity.StartForegroundService(serviceIntent);
+                    //Activity.StartService(serviceIntent);
+
+                    //WorkerHelper.Instance.EnqueueWork(Monitoring.CreateWorkRequest(TimeSpan.FromSeconds(10)));
+                }
+                else
+                {
+                    intervalSettingLayout.Visibility = ViewStates.Gone;
+
+                    //WorkManager.GetInstance(Context).CancelAllWorkByTag("MonitoringMeasureTag");
+
+                    Activity.StopService(serviceIntent);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                intervalSettingLayout.Visibility = ViewStates.Gone;
-
-                Activity.StopService(serviceIntent);
+                RecordHelper.WriteText(ex.ToString());
             }
         }
     }

@@ -42,6 +42,8 @@ namespace RealTimeHR
 
             if (isPass)
             {
+                Intent intent = new Intent(this, typeof(MainViewPagerActivity));
+
                 StartActivity(typeof(MainViewPagerActivity));
             }
 

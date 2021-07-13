@@ -25,8 +25,6 @@ namespace RealTimeHR
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-
-
         }
     }
 }
