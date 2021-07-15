@@ -10,6 +10,8 @@ using RealTimeHR.Helper;
 using System;
 using System.Timers;
 
+using Xamarin.Essentials;
+
 using static Android.OS.PowerManager;
 
 namespace RealTimeHR
@@ -17,7 +19,10 @@ namespace RealTimeHR
     [Service(Name = "com.urk.realtimehr.monitoringservice", Process = ":monitoring_service", Exported = true)]
     public class MonitoringService : Service, ISensorEventListener
     {
-        private HeartRateHelper HRHelper => HeartRateHelper.Instance;
+        private const string LOG_TAG = "RealTimeHR_MonitoringService";
+        private const string NOTIFICATION_CHANNEL = "RealTimeHRMonitoringService";
+
+        private int Interval => Preferences.Get(SettingConstants.MONITORING_INTERVAL, 10);
 
         private Timer measureTimer;
 
@@ -33,15 +38,15 @@ namespace RealTimeHR
         {
             base.OnCreate();
 
-            NotificationChannel channel = new NotificationChannel("RealTimeHRService", "Monitoring Service", NotificationImportance.Low);
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL, "Monitoring Service", NotificationImportance.Low);
 
             (ApplicationContext.GetSystemService(NotificationService) as NotificationManager).CreateNotificationChannel(channel);
 
-            Notification notification = new Notification.Builder(this, "RealTimeHRService")
-            .SetContentTitle("Real Time HR Service")
-            .SetContentText("Monitoring Service")
-            .SetSmallIcon(Resource.Mipmap.ic_launcher)
-            .Build();
+            Notification notification = new Notification.Builder(this, NOTIFICATION_CHANNEL)
+                .SetContentTitle("Real Time HR Service")
+                .SetContentText("Monitoring Service")
+                .SetSmallIcon(Resource.Mipmap.ic_launcher)
+                .Build();
 
             StartForeground(1512, notification);
         }
@@ -58,18 +63,16 @@ namespace RealTimeHR
             {
                 measureTimer = new Timer();
                 measureTimer.Elapsed += MeasureHR;
-                measureTimer.Interval = TimeSpan.FromMinutes(10).TotalMilliseconds;
+                measureTimer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
                 measureTimer.Stop();
 
                 vibrator = ApplicationContext.GetSystemService(VibratorService) as Vibrator;
             }
 
-            PowerManager powerManager = ApplicationContext.GetSystemService(Context.PowerService) as PowerManager;
+            PowerManager powerManager = ApplicationContext.GetSystemService(PowerService) as PowerManager;
             wakeLock = powerManager.NewWakeLock(WakeLockFlags.Partial, "RealTimeHR::MonitoringServiceLockTag");
 
             wakeLock.Acquire();
-
-            ChangeInterval(30);
 
             measureTimer.Start();
 
@@ -91,38 +94,14 @@ namespace RealTimeHR
 
                 sensorManager?.RegisterListener(this, hrSensor, SensorDelay.Normal);
 
-                Log.Info("RealTimeHRService", "Start Sensor");
+                Log.Info(LOG_TAG, "Start Sensor");
             }
             catch (Exception ex)
             {
                 RecordHelper.WriteText(ex.ToString());
+
+                sensorManager?.UnregisterListener(this, hrSensor);
             }
-        }
-
-        private void FinalizeMeasure(object sender, int data)
-        {
-            try
-            {
-                HRHelper.StopSensor();
-                HRHelper.HRDataChanged -= FinalizeMeasure;
-
-                DateTime now = DateTime.Now;
-
-                RecordHelper.WriteData($"{now:yyyyMMddHHmmss} {data}");
-
-                measureTimer?.Start();
-
-                Log.Info("RealTimeHRService", "Stop Sensor");
-            }
-            catch (Exception ex)
-            {
-                RecordHelper.WriteText(ex.ToString());
-            }
-        }
-
-        public void ChangeInterval(int min)
-        {
-            //measureTimer.Change(TimeSpan.FromSeconds(min), TimeSpan.FromSeconds(min));
         }
 
         public override void OnDestroy()
@@ -131,8 +110,6 @@ namespace RealTimeHR
 
             measureTimer?.Stop();
             measureTimer?.Dispose();
-
-            //wakeLock?.Release();
 
             isRunning = false;
 
@@ -154,9 +131,11 @@ namespace RealTimeHR
 
             DateTime now = DateTime.Now;
 
-            RecordHelper.WriteData($"{now:yyyyMMddHHmmss} {hrData}");
+            RecordHelper.WriteData($"{now:yyyy/MM/dd/ HH:mm:ss} {hrData}");
 
-            Log.Info("RealTimeHRService", "Stop Sensor");
+            Log.Info(LOG_TAG, "Stop Sensor");
+
+            measureTimer.Interval = TimeSpan.FromMinutes(Interval).TotalMilliseconds;
 
             measureTimer?.Start();
         }

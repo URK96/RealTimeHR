@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Hardware;
 using Android.Runtime;
+using Android.Util;
 
 using System;
 
@@ -50,7 +51,7 @@ namespace RealTimeHR.Helper
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
         {
-            
+            Log.Info("RealTimeHR", accuracy.ToString());
         }
 
         public void OnSensorChanged(SensorEvent e)

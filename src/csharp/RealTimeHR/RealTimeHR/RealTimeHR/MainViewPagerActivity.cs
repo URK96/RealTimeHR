@@ -41,7 +41,8 @@ namespace RealTimeHR
 
             if (HeartRateHelper.Instance.IsSensorExist)
             {
-                adapter.AddFragment(new BackgroundSettingFragment());
+                adapter.AddFragment(new MonitoringToggleFragment());
+                adapter.AddFragment(new HRRecordListFragment());
             }
 
             viewPager.Adapter = adapter;

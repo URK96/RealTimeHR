@@ -7,9 +7,17 @@
   <string name="realtime_ready">Measuring</string>
 
   <string name="monitoring_title">Monitoring</string>
+  <string name="monitoring_setting_title">Monitoring\nInterval</string>
+
+  <string name="recordlist_title">Monitoring Data</string>
+
+  <string name="monitoring_service_noti_title"></string>
+  <string name="monitoring_service_noti_message"></string>
 
   <string name="text_minute">min.</string>  
   <string name="text_enable">Enable</string>
+  <string name="text_setting">Setting</string>
+  <string name="text_apply">Apply</string>
   <!--
   This string is used for square devices and overridden by hello_world in
   values-round/strings.xml for round devices.
