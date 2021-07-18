@@ -2,6 +2,8 @@
 using Android.OS;
 using Android.Widget;
 
+using RealTimeHR.Helper;
+
 using System;
 
 using Xamarin.Essentials;
@@ -16,7 +18,7 @@ namespace RealTimeHR
         private NumberPicker intervalSelector;
         private Button applyButton;
 
-        private string[] intervalList =
+        private readonly string[] intervalList =
         {
             "10",
             "20",
@@ -57,7 +59,14 @@ namespace RealTimeHR
 
             applyButton.Click += delegate
             {
-                Preferences.Set(SettingConstants.MONITORING_INTERVAL, int.Parse(intervalList[intervalSelector.Value]));
+                int value = int.Parse(intervalList[intervalSelector.Value]);
+
+                Preferences.Set(SettingConstants.MONITORING_INTERVAL, value);
+
+                if (MonitoringService.isRunning)
+                {
+                    MonitoringHelper.Instance.UpdateMonitoringInterval(value);
+                }
 
                 Finish();
             };

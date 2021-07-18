@@ -45,6 +45,8 @@ namespace RealTimeHR
                 adapter.AddFragment(new HRRecordListFragment());
             }
 
+            adapter.AddFragment(new GoogleFitAccessFragment());
+
             viewPager.Adapter = adapter;
         }
 

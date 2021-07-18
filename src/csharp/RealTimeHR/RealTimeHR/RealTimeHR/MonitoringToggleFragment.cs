@@ -1,9 +1,8 @@
 ﻿using Android.Content;
 using Android.OS;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
-
-using RealTimeHR.Helper;
 
 using System;
 
@@ -11,7 +10,6 @@ namespace RealTimeHR
 {
     public class MonitoringToggleFragment : AndroidX.Fragment.App.Fragment
     {
-        private LinearLayout rootLayout;
         private Switch monitoringSwitch;
         private Button settingButton;
 
@@ -26,7 +24,6 @@ namespace RealTimeHR
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            rootLayout = view.FindViewById<LinearLayout>(Resource.Id.MonitoringRootLayout);
             monitoringSwitch = view.FindViewById<Switch>(Resource.Id.MonitoringSwitch);
             settingButton = view.FindViewById<Button>(Resource.Id.MonitoringTimeSettingButton);
 
@@ -51,20 +48,16 @@ namespace RealTimeHR
                 if (e.IsChecked)
                 {
                     Activity.StartForegroundService(serviceIntent);
-                    //Activity.StartService(serviceIntent);
-
-                    //WorkerHelper.Instance.EnqueueWork(Monitoring.CreateWorkRequest(TimeSpan.FromSeconds(10)));
                 }
                 else
                 {
-                    //WorkManager.GetInstance(Context).CancelAllWorkByTag("MonitoringMeasureTag");
-
+                    
                     Activity.StopService(serviceIntent);
                 }
             }
             catch (Exception ex)
             {
-                RecordHelper.WriteText(ex.ToString());
+                Log.Error("RealTimeHR_MonitoringToggle", ex.ToString());
             }
         }
     }
