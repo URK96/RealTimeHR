@@ -1,10 +1,13 @@
-﻿using Android.Content;
+﻿using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
 
 using System;
+
+using Xamarin.Essentials;
 
 namespace RealTimeHR
 {
@@ -33,11 +36,10 @@ namespace RealTimeHR
         private void InitControl()
         {
             monitoringSwitch.CheckedChange += MonitoringSwitch_CheckedChange;
-            monitoringSwitch.Checked = MonitoringService.isRunning;
+            monitoringSwitch.Checked = Preferences.Get(SettingConstants.MONITORING_SERVICE_RUNNING, false);
 
             settingButton.Click += delegate { Activity.StartActivity(typeof(MonitoringSettingActivity)); };
         }
-
 
         private void MonitoringSwitch_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         { 

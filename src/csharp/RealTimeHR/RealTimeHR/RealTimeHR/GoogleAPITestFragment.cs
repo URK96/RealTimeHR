@@ -1,38 +1,47 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
+using Android.Views;
+using Android.Widget;
 
 using RealTimeHR.Helper;
 
 using System;
 
-using static Android.OS.PowerManager;
-
 namespace RealTimeHR
 {
-    [BroadcastReceiver(Enabled = true, Exported = true)]
-    [IntentFilter(new string[] { MONITORING_INTENT })]
-    public class MonitoringBroadcastReceiver : BroadcastReceiver, ISensorEventListener
+    public class GoogleAPITestFragment : AndroidX.Fragment.App.Fragment, ISensorEventListener
     {
-        private const string LOG_TAG = "RealTimeHR_MonitoringService";
-        public const string MONITORING_INTENT = "com.urk.realtimehr.EXECUTE_MONITORING";
-
-        private WakeLock wakeLock;
+        private const string LOG_TAG = "RealTimeHR_GoogleAPITest";
 
         private SensorManager sensorManager;
         private Sensor hrSensor;
 
-        public override void OnReceive(Context context, Intent intent)
+        private Button testButton;
+        private TextView statusTextView;
+
+        public override void OnCreate(Bundle savedInstanceState)
         {
-            PowerManager powerManager = context.GetSystemService(Context.PowerService) as PowerManager;
-            wakeLock = powerManager.NewWakeLock(WakeLockFlags.Partial, "RealTimeHR::MonitoringServiceLockTag");
+            base.OnCreate(savedInstanceState);
+        }
 
-            wakeLock.Acquire();
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            View view = inflater.Inflate(Resource.Layout.GoogleFitAPITestLayout, container);
 
-            MeasureHR(context);
+            return view;
+        }
+
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            testButton = view.FindViewById<Button>(Resource.Id.GoogleAPITestButton);
+            statusTextView = view.FindViewById<TextView>(Resource.Id.APIStatusTextView);
+
+            testButton.Click += delegate { MeasureHR(Context); };
         }
 
         private void MeasureHR(Context context)
@@ -44,11 +53,13 @@ namespace RealTimeHR
 
                 sensorManager?.RegisterListener(this, hrSensor, SensorDelay.Normal);
 
+                statusTextView.Text = "Measuring...";
+
                 Log.Info(LOG_TAG, "Start Sensor");
             }
             catch (Exception ex)
             {
-                RecordHelper.WriteText(ex.ToString());
+                Log.Error(LOG_TAG, ex.ToString());
 
                 sensorManager?.UnregisterListener(this, hrSensor);
             }
@@ -56,7 +67,7 @@ namespace RealTimeHR
 
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
         {
-            
+
         }
 
         public void OnSensorChanged(SensorEvent e)
@@ -67,18 +78,16 @@ namespace RealTimeHR
 
                 int hrData = (int)Math.Round(e.Values[0]);
 
-                DateTime now = DateTime.Now;
-
-                RecordHelper.WriteData($"{now:yyyy/MM/dd/ HH:mm:ss} {hrData}");
-
                 Log.Info(LOG_TAG, "Stop Sensor");
+
+                statusTextView.Text = "Measured";
 
                 if (GoogleFitHelper.Instance.HasPermissions)
                 {
+                    statusTextView.Text = "Inserting...";
+
                     GoogleFitHelper.Instance.InsertHeartRateData(hrData);
                 }
-
-                wakeLock?.Release();
             }
             catch (Exception ex)
             {

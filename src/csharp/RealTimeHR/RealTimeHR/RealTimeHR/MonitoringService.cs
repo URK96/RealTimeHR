@@ -58,7 +58,7 @@ namespace RealTimeHR
 
             MonitoringHelper.Instance.RegisterMonitoring(Interval);
 
-            isRunning = true;
+            Preferences.Set(SettingConstants.MONITORING_SERVICE_RUNNING, true);
 
             return StartCommandResult.Sticky;
         }
@@ -90,7 +90,7 @@ namespace RealTimeHR
                 StopForeground(StopForegroundFlags.Remove);
                 StopSelf();
 
-                isRunning = false;
+                Preferences.Set(SettingConstants.MONITORING_SERVICE_RUNNING, false);
             }
         }
     }
