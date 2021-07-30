@@ -58,9 +58,18 @@ namespace RealTimeHR
 
             MonitoringHelper.Instance.RegisterMonitoring(Interval);
 
-            Preferences.Set(SettingConstants.MONITORING_SERVICE_RUNNING, true);
+            Log.Info(LOG_TAG, "Start monitoring service");
 
             return StartCommandResult.Sticky;
+        }
+        
+        public static bool IsAlive()
+        {
+            NotificationManager manager = Application.Context.GetSystemService(NotificationService) as NotificationManager;
+
+            var notis = manager.GetActiveNotifications();
+
+            return Array.Exists(notis, x => x.Id == NOTIFICATION_ID);
         }
 
         public override void OnDestroy()
@@ -69,7 +78,7 @@ namespace RealTimeHR
             {
                 base.OnDestroy();
 
-                Log.Info(LOG_TAG, "Destory Service");
+                Log.Info(LOG_TAG, "Destory monitoring service");
 
                 //Intent alarmIntent = new Intent(ApplicationContext, typeof(MonitoringBroadcastReceiver));
                 //alarmIntent.SetAction(MonitoringBroadcastReceiver.MONITORING_INTENT);
@@ -89,8 +98,6 @@ namespace RealTimeHR
             {
                 StopForeground(StopForegroundFlags.Remove);
                 StopSelf();
-
-                Preferences.Set(SettingConstants.MONITORING_SERVICE_RUNNING, false);
             }
         }
     }

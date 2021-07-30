@@ -55,6 +55,11 @@
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidSupportedAbis />
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\URK96\AppData\Local\Xamarin\Mono for Android\Keystore\RealTimeHR\RealTimeHR.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>urk13301512</AndroidSigningStorePass>
+    <AndroidSigningKeyPass>urk13301512</AndroidSigningKeyPass>
+    <AndroidSigningKeyAlias>RealTimeHR</AndroidSigningKeyAlias>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

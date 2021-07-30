@@ -63,7 +63,7 @@ namespace RealTimeHR
 
                 Preferences.Set(SettingConstants.MONITORING_INTERVAL, value);
 
-                if (MonitoringService.isRunning)
+                if (MonitoringService.IsAlive())
                 {
                     MonitoringHelper.Instance.UpdateMonitoringInterval(value);
                 }

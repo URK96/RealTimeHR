@@ -36,7 +36,7 @@ namespace RealTimeHR
         private void InitControl()
         {
             monitoringSwitch.CheckedChange += MonitoringSwitch_CheckedChange;
-            monitoringSwitch.Checked = Preferences.Get(SettingConstants.MONITORING_SERVICE_RUNNING, false);
+            monitoringSwitch.Checked = MonitoringService.IsAlive();
 
             settingButton.Click += delegate { Activity.StartActivity(typeof(MonitoringSettingActivity)); };
         }

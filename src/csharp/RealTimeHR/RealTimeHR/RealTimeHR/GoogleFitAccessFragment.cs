@@ -1,10 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
-using Android.Gms.Fitness;
-using Android.Gms;
 using Android.OS;
-using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -12,12 +9,7 @@ using Android.Widget;
 using AndroidX.Activity.Result;
 using AndroidX.Activity.Result.Contract;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using RealTimeHR.Helper;
-using Android.Gms.Auth.Api;
 
 namespace RealTimeHR
 {
@@ -96,7 +88,10 @@ namespace RealTimeHR
         {
             base.OnResume();
 
-
+            if (GoogleSignIn.GetLastSignedInAccount(Context) != null)
+            {
+                loginResultText.Text = "Already Login";
+            }
         }
 
         private void InitControl()
@@ -130,11 +125,6 @@ namespace RealTimeHR
             {
                 loginResultText.Text = "Already Login";
             }
-        }
-
-        private void LoginButton_Click(object sender, EventArgs e)
-        {
-            LoginGoogle();
         }
     }
 }

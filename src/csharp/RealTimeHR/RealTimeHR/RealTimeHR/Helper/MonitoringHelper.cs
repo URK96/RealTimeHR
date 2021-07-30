@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -49,6 +50,8 @@ namespace RealTimeHR.Helper
         {
             UnregisterMonitoring();
             RegisterMonitoring(interval);
+
+            Log.Info("RealTimeHR_MonitoringHelper", "Change monitoring interval success");
         }
     }
 }
