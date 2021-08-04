@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace RealTimeHR
 {
-    public class HRRecordListFragment : AndroidX.Fragment.App.Fragment
+    [Activity(Label = "HRRecordListActivity")]
+    public class HRRecordListActivity : Activity
     {
         private WearableRecyclerView recyclerView;
 
@@ -21,28 +22,18 @@ namespace RealTimeHR
 
         private List<HeartRateData> datas = new List<HeartRateData>();
 
-        public override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-        }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
-            View view = inflater.Inflate(Resource.Layout.HRRecordListLayout, null);
+            SetContentView(Resource.Layout.HRRecordListLayout);
 
-            return view;
-        }
-
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
-        {
-            base.OnViewCreated(view, savedInstanceState);
-
-            recyclerView = view.FindViewById<WearableRecyclerView>(Resource.Id.HRRecordRecyclerView);
+            recyclerView = FindViewById<WearableRecyclerView>(Resource.Id.HRRecordRecyclerView);
 
             InitControl();
         }
 
-        public override async void OnResume()
+        protected override async void OnResume()
         {
             base.OnResume();
 
@@ -54,7 +45,7 @@ namespace RealTimeHR
             adapter = new RecordListAdapter(datas);
 
             recyclerView.CircularScrollingGestureEnabled = true;
-            recyclerView.SetLayoutManager(new WearableLinearLayoutManager(Context));
+            recyclerView.SetLayoutManager(new WearableLinearLayoutManager(this));
             recyclerView.SetAdapter(adapter);
         }
 

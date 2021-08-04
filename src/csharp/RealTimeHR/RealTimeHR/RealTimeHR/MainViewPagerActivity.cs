@@ -42,11 +42,12 @@ namespace RealTimeHR
             if (HeartRateHelper.Instance.IsSensorExist)
             {
                 adapter.AddFragment(new MonitoringToggleFragment());
-                adapter.AddFragment(new HRRecordListFragment());
+                
             }
 
+            adapter.AddFragment(new HRRecentRecordFragment());
+
             adapter.AddFragment(new GoogleFitAccessFragment());
-            adapter.AddFragment(new GoogleAPITestFragment());
 
             viewPager.Adapter = adapter;
         }

@@ -8,42 +8,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Google Account"
-        android:textStyle="bold"
-        android:gravity="center"/>
-
-    <Button
-        android:id="@+id/GoogleLoginButton" 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:background="@drawable/button_shape"
-        android:text="Login"/>
-
-    <Button
-        android:id="@+id/GoogleLogoutButton" 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:background="@drawable/button_shape"
-        android:text="Logout"/>
-
-    <TextView
-        android:id="@+id/AccountInfoTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-        android:text="Account Info"
+        android:text="Recent Heart Rate"
         android:textStyle="bold"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/AccountInfoTextView"
+        android:id="@+id/HRRecentRecordValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="#F76868"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/HRRecentRecordTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/HRRecordListButton" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_shape"
+        android:text="Record List"/>
 
 </LinearLayout>

@@ -11,12 +11,18 @@ using AndroidX.Activity.Result.Contract;
 
 using RealTimeHR.Helper;
 
+using System.Text;
+
 namespace RealTimeHR
 {
     public class GoogleFitAccessFragment : AndroidX.Fragment.App.Fragment, IActivityResultCallback
     {
+        private const int REQUEST_PERMISSION_CODE = 1;
+
         private Button loginButton;
-        private TextView loginResultText;
+        private Button logoutButton;
+        private TextView accountInfoTitleText;
+        private TextView accountInfoText;
 
         private ActivityResultLauncher launcher;
 
@@ -27,16 +33,15 @@ namespace RealTimeHR
             launcher = RegisterForActivityResult(new ActivityResultContracts.StartActivityForResult(), this);
         }
 
+        // For sign in google
         public async void OnActivityResult(Java.Lang.Object obj)
         {
             ActivityResult result = obj as ActivityResult;
 
             if (result.ResultCode == (int)Result.Ok)
             {
-                if (loginResultText != null)
+                if (accountInfoText != null)
                 {
-                    loginResultText.Text = "Login Success";
-
                     GoogleSignInAccount account = await GoogleSignIn.GetSignedInAccountFromIntentAsync(result.Data);
 
                     GrantPermission(account);
@@ -44,27 +49,13 @@ namespace RealTimeHR
             }
         }
 
+        // For request google cloud permissions
         public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
-            //base.OnActivityResult(requestCode, resultCode, data);
-
-            Log.Debug("RealTimeHR_GoogleSignIn", $"Request Code : {requestCode}");
-            Log.Debug("RealTimeHR_GoogleSignIn", $"Result Code : {resultCode}");
-
-            if (requestCode == 1)
+            if (requestCode == REQUEST_PERMISSION_CODE)
             {
-
+                UpdateLoginStatus();
             }
-            else if (requestCode == 2)
-            {
-                if (resultCode == (int)Result.Ok)
-                {
-                    //GrantPermission();
-                }
-            }
-
-            // resultCode 0 is cancel, -1 is success
-            // requestCode 1 is fix
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -79,7 +70,9 @@ namespace RealTimeHR
             base.OnViewCreated(view, savedInstanceState);
 
             loginButton = view.FindViewById<Button>(Resource.Id.GoogleLoginButton);
-            loginResultText = view.FindViewById<TextView>(Resource.Id.LoginResultTextView);
+            logoutButton = view.FindViewById<Button>(Resource.Id.GoogleLogoutButton);
+            accountInfoTitleText = view.FindViewById<TextView>(Resource.Id.AccountInfoTitleTextView);
+            accountInfoText = view.FindViewById<TextView>(Resource.Id.AccountInfoTextView);
 
             InitControl();
         }
@@ -88,29 +81,64 @@ namespace RealTimeHR
         {
             base.OnResume();
 
-            if (GoogleSignIn.GetLastSignedInAccount(Context) != null)
+            UpdateLoginStatus();
+        }
+
+        private void UpdateLoginStatus()
+        {
+            GoogleSignInAccount account = GoogleSignIn.GetLastSignedInAccount(Context);
+
+            if (account != null)
             {
-                loginResultText.Text = "Already Login";
+                loginButton.Visibility = ViewStates.Gone;
+                logoutButton.Visibility = ViewStates.Visible;
+                accountInfoTitleText.Visibility = ViewStates.Visible;
+                accountInfoText.Visibility = ViewStates.Visible;
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine(account.DisplayName);
+                sb.Append($"({account.Email})");
+
+                accountInfoText.Text = sb.ToString();
+            }
+            else
+            {
+                loginButton.Visibility = ViewStates.Visible;
+                logoutButton.Visibility = ViewStates.Gone;
+                accountInfoTitleText.Visibility = ViewStates.Gone;
+                accountInfoText.Visibility = ViewStates.Gone;
             }
         }
 
         private void InitControl()
         {
             loginButton.Click += delegate { LoginGoogle(); };
+            logoutButton.Click += delegate { LogoutGoogle(); };
         }
 
         private void LoginGoogle()
         {
-            GoogleSignInOptions options = new GoogleSignInOptions.Builder()
-                .RequestEmail()
-                .RequestId()
-                .RequestProfile()
-                .Build();
-            GoogleSignInClient client = GoogleSignIn.GetClient(Activity, options);
+            //GoogleSignInOptions options = new GoogleSignInOptions.Builder()
+            //    .RequestEmail()
+            //    .RequestId()
+            //    .RequestProfile()
+            //    .Build();
+            //GoogleSignInClient client = GoogleSignIn.GetClient(Activity, CreateSignInOptions());
 
-            //Activity.StartActivityForResult(client.SignInIntent, 2);
+            launcher.Launch(GoogleSignHelper.Instance.SignInClient.SignInIntent);
+        }
 
-            launcher.Launch(client.SignInIntent);
+        private void LogoutGoogle()
+        {
+            var listener = new GoogleSignHelper.GoogleSignOutListener();
+
+            GoogleSignHelper.Instance.SignInClient
+                .SignOut()
+                .AddOnSuccessListener(listener)
+                .AddOnFailureListener(listener);
+
+            UpdateLoginStatus();
         }
 
         private void GrantPermission(GoogleSignInAccount account)
@@ -119,11 +147,7 @@ namespace RealTimeHR
 
             if (!helper.HasPermissions)
             {
-                GoogleSignIn.RequestPermissions(this, 1, account, helper.Options);
-            }
-            else
-            {
-                loginResultText.Text = "Already Login";
+                GoogleSignIn.RequestPermissions(this, REQUEST_PERMISSION_CODE, account, helper.FitOptions);
             }
         }
     }

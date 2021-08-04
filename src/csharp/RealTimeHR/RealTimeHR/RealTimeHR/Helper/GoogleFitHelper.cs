@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Fitness;
 using Android.Gms.Fitness.Data;
@@ -15,18 +14,20 @@ namespace RealTimeHR.Helper
 {
     public class GoogleFitHelper : Java.Lang.Object, IOnSuccessListener, IOnFailureListener
     {
+        private const string LOG_TAG = "RealTimeHR_GoogleFitHelper";
+
         private Context AppContext => Application.Context;
 
         public static GoogleFitHelper Instance => instance.Value;
-        public FitnessOptions Options { get; private set; }
-        public GoogleSignInAccount Account => GoogleSignIn.GetAccountForExtension(AppContext, Options);
-        public bool HasPermissions => GoogleSignIn.HasPermissions(Account, Options);
+        public FitnessOptions FitOptions { get; private set; }
+        public GoogleSignInAccount Account => GoogleSignIn.GetAccountForExtension(AppContext, FitOptions);
+        public bool HasPermissions => GoogleSignIn.HasPermissions(Account, FitOptions);
 
         private static readonly Lazy<GoogleFitHelper> instance = new Lazy<GoogleFitHelper>(() => new GoogleFitHelper());
 
         private GoogleFitHelper()
         {
-            Options = FitnessOptions.InvokeBuilder()
+            FitOptions = FitnessOptions.InvokeBuilder()
                 .AddDataType(DataType.TypeHeartRateBpm, FitnessOptions.AccessWrite)
                 .AddDataType(DataType.TypeHeartRateBpm, FitnessOptions.AccessRead)
                 .Build();
@@ -55,21 +56,19 @@ namespace RealTimeHR.Helper
         {
             try
             {
-                var account = GoogleSignIn.GetAccountForExtension(AppContext, Options);
-
-                FitnessClass.GetHistoryClient(AppContext, account)
+                FitnessClass.GetHistoryClient(AppContext, Account)
                     .InsertData(CreateHeartRateData(data))
                     .AddOnSuccessListener(this)
                     .AddOnFailureListener(this);
             }
             catch (Exception ex)
             {
-                Log.Error("RealTimeHR_GoogleFitHelper", ex.ToString());
+                Log.Error(LOG_TAG, ex.ToString());
 
                 return false;
             }
 
-            Log.Info("RealTimeHR_GoogleFitHelper", "Success to request insert heart rate data");
+            Log.Info(LOG_TAG, "Success to request insert heart rate data");
 
             return true;
         }
@@ -95,13 +94,13 @@ namespace RealTimeHR.Helper
 
         public void OnSuccess(Java.Lang.Object result)
         {
-            Log.Info("RealTimeHR_GoogleFitHelper", "insert success");
+            Log.Info(LOG_TAG, "Insert success");
         }
 
         public void OnFailure(Java.Lang.Exception e)
         {
-            Log.Info("RealTimeHR_GoogleFitHelper", "insert fail");
-            Log.Error("RealTimeHR_GoogleFitHelper", e.ToString());
+            Log.Info(LOG_TAG, "Insert fail");
+            Log.Error(LOG_TAG, e.ToString());
         }
     }
 }

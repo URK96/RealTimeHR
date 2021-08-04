@@ -48,14 +48,6 @@ namespace RealTimeHR
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            //Intent alarmIntent = new Intent(ApplicationContext, typeof(MonitoringBroadcastReceiver));
-            //alarmIntent.SetAction(MonitoringBroadcastReceiver.MONITORING_INTENT);
-            //PendingIntent pendingIntent = PendingIntent.GetBroadcast(ApplicationContext, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-
-            //AlarmManager alarmManager = ApplicationContext.GetSystemService(AlarmService) as AlarmManager;
-
-            //alarmManager.SetRepeating(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + 10 * 1000, (long)TimeSpan.FromMinutes(Interval).TotalMilliseconds, pendingIntent);
-
             MonitoringHelper.Instance.RegisterMonitoring(Interval);
 
             Log.Info(LOG_TAG, "Start monitoring service");
@@ -79,14 +71,6 @@ namespace RealTimeHR
                 base.OnDestroy();
 
                 Log.Info(LOG_TAG, "Destory monitoring service");
-
-                //Intent alarmIntent = new Intent(ApplicationContext, typeof(MonitoringBroadcastReceiver));
-                //alarmIntent.SetAction(MonitoringBroadcastReceiver.MONITORING_INTENT);
-                //PendingIntent pendingIntent = PendingIntent.GetBroadcast(ApplicationContext, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-
-                //AlarmManager alarmManager = ApplicationContext.GetSystemService(AlarmService) as AlarmManager;
-
-                //alarmManager.Cancel(pendingIntent); 
 
                 MonitoringHelper.Instance.UnregisterMonitoring();
             }

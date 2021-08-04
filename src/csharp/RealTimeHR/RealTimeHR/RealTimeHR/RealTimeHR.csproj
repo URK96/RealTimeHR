@@ -54,7 +54,8 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidSupportedAbis />
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
     <AndroidKeyStore>true</AndroidKeyStore>
     <AndroidSigningKeyStore>C:\Users\URK96\AppData\Local\Xamarin\Mono for Android\Keystore\RealTimeHR\RealTimeHR.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>urk13301512</AndroidSigningStorePass>
@@ -71,14 +72,15 @@
     <Compile Include="GoogleAPITestFragment.cs" />
     <Compile Include="GoogleFitAccessFragment.cs" />
     <Compile Include="Helper\GoogleFitHelper.cs" />
-    <Compile Include="HRRecordListFragment.cs" />
+    <Compile Include="Helper\GoogleSignHelper.cs" />
+    <Compile Include="HRRecentRecordFragment.cs" />
+    <Compile Include="HRRecordListActivity.cs" />
     <Compile Include="Helper\MonitoringHelper.cs" />
     <Compile Include="MonitoringBroadcastReceiver.cs" />
     <Compile Include="MonitoringSettingActivity.cs" />
     <Compile Include="MonitoringToggleFragment.cs" />
     <Compile Include="Helper\HeartRateHelper.cs" />
     <Compile Include="Helper\RecordHelper.cs" />
-    <Compile Include="Helper\WorkerHelper.cs" />
     <Compile Include="HRChartFragment.cs" />
     <Compile Include="MonitoringService.cs" />
     <Compile Include="RealTimeMeasureFragment.cs" />
@@ -207,6 +209,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\GoogleFitAPITestLayout.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HRRecentRecordLayout.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
