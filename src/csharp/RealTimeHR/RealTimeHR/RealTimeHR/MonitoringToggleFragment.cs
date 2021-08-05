@@ -1,13 +1,12 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-using System;
+using AndroidX.Wear.Activity;
 
-using Xamarin.Essentials;
+using System;
 
 namespace RealTimeHR
 {
@@ -53,8 +52,14 @@ namespace RealTimeHR
                 }
                 else
                 {
-                    
                     Activity.StopService(serviceIntent);
+
+                    Intent intent = new Intent(Context, typeof(ConfirmationActivity))
+                        .SetFlags(ActivityFlags.NewTask)
+                        .PutExtra(ConfirmationActivity.ExtraAnimationType, ConfirmationActivity.SuccessAnimation)
+                        .PutExtra(ConfirmationActivity.ExtraMessage, Resources.GetString(Resource.String.monitoring_service_stop_confirmation));
+
+                    StartActivity(intent);
                 }
             }
             catch (Exception ex)

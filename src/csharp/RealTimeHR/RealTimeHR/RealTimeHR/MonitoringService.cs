@@ -4,6 +4,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Util;
 
+using AndroidX.Wear.Activity;
+
 using RealTimeHR.Helper;
 
 using System;
@@ -38,6 +40,13 @@ namespace RealTimeHR
                 .Build();
 
             StartForeground(NOTIFICATION_ID, notification);
+
+            Intent intent = new Intent(this, typeof(ConfirmationActivity))
+                        .SetFlags(ActivityFlags.NewTask)
+                        .PutExtra(ConfirmationActivity.ExtraAnimationType, ConfirmationActivity.SuccessAnimation)
+                        .PutExtra(ConfirmationActivity.ExtraMessage, Resources.GetString(Resource.String.monitoring_service_start_confirmation));
+
+            StartActivity(intent);
         }
 
         public override IBinder OnBind(Intent intent)

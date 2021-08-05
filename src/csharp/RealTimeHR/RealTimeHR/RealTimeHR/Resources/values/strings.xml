@@ -13,6 +13,8 @@
 
   <string name="monitoring_service_noti_title"></string>
   <string name="monitoring_service_noti_message"></string>
+  <string name="monitoring_service_start_confirmation">Success to start monitoring service</string>
+  <string name="monitoring_service_stop_confirmation">Success to stop monitoring service</string>
 
   <string name="text_minute">min.</string>  
   <string name="text_enable">Enable</string>

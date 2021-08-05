@@ -43,16 +43,6 @@ namespace RealTimeHR
             hrMonitoringDataTextView = view.FindViewById<TextView>(Resource.Id.RealTimeHRData);
         }
 
-        //private void AdjustInset()
-        //{
-        //    if (Activity.ApplicationContext.Resources.Configuration.IsScreenRound)
-        //    {
-        //        var inset = Convert.ToInt32(FACTOR * Resources.DisplayMetrics.WidthPixels);
-
-        //        rootLayout.SetPadding(inset, inset, inset, inset);
-        //    }
-        //}
-
         private void RegisterHRSensor()
         {
             if (HRService.IsSensorExist)

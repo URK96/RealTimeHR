@@ -6135,58 +6135,64 @@ namespace RealTimeHR
 			public const int monitoring_service_noti_title = 2131755097;
 			
 			// aapt resource value: 0x7F10005A
-			public const int monitoring_setting_title = 2131755098;
+			public const int monitoring_service_start_confirmation = 2131755098;
 			
 			// aapt resource value: 0x7F10005B
-			public const int monitoring_title = 2131755099;
+			public const int monitoring_service_stop_confirmation = 2131755099;
 			
 			// aapt resource value: 0x7F10005C
-			public const int navigation_drawer_content_description = 2131755100;
+			public const int monitoring_setting_title = 2131755100;
 			
 			// aapt resource value: 0x7F10005D
-			public const int realtime_caution = 2131755101;
+			public const int monitoring_title = 2131755101;
 			
 			// aapt resource value: 0x7F10005E
-			public const int realtime_ready = 2131755102;
+			public const int navigation_drawer_content_description = 2131755102;
 			
 			// aapt resource value: 0x7F10005F
-			public const int recordlist_title = 2131755103;
+			public const int realtime_caution = 2131755103;
 			
 			// aapt resource value: 0x7F100060
-			public const int search_menu_title = 2131755104;
+			public const int realtime_ready = 2131755104;
 			
 			// aapt resource value: 0x7F100061
-			public const int status_bar_notification_info_overflow = 2131755105;
+			public const int recordlist_title = 2131755105;
 			
 			// aapt resource value: 0x7F100062
-			public const int text_apply = 2131755106;
+			public const int search_menu_title = 2131755106;
 			
 			// aapt resource value: 0x7F100063
-			public const int text_enable = 2131755107;
+			public const int status_bar_notification_info_overflow = 2131755107;
 			
 			// aapt resource value: 0x7F100064
-			public const int text_minute = 2131755108;
+			public const int text_apply = 2131755108;
 			
 			// aapt resource value: 0x7F100065
-			public const int text_sensor_notfound = 2131755109;
+			public const int text_enable = 2131755109;
 			
 			// aapt resource value: 0x7F100066
-			public const int text_setting = 2131755110;
+			public const int text_minute = 2131755110;
 			
 			// aapt resource value: 0x7F100067
-			public const int time_difference_now = 2131755111;
+			public const int text_sensor_notfound = 2131755111;
 			
 			// aapt resource value: 0x7F100068
-			public const int time_difference_short_days_and_hours = 2131755112;
+			public const int text_setting = 2131755112;
 			
 			// aapt resource value: 0x7F100069
-			public const int time_difference_short_hours_and_minutes = 2131755113;
+			public const int time_difference_now = 2131755113;
 			
 			// aapt resource value: 0x7F10006A
-			public const int ws_action_drawer_content_description = 2131755114;
+			public const int time_difference_short_days_and_hours = 2131755114;
 			
 			// aapt resource value: 0x7F10006B
-			public const int ws_navigation_drawer_content_description = 2131755115;
+			public const int time_difference_short_hours_and_minutes = 2131755115;
+			
+			// aapt resource value: 0x7F10006C
+			public const int ws_action_drawer_content_description = 2131755116;
+			
+			// aapt resource value: 0x7F10006D
+			public const int ws_navigation_drawer_content_description = 2131755117;
 			
 			static String()
 			{
