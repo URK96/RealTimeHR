@@ -103,23 +103,13 @@ namespace RealTimeHR
             }
         }
 
-        public class ListHeaderViewHolder : RecyclerView.ViewHolder
-        {
-            public TextView HeaderText { get; private set; }
-
-            public ListHeaderViewHolder(View view) : base(view)
-            {
-                HeaderText = view.FindViewById<TextView>(Resource.Id.ListHeaderTextView);
-            }
-        }
-
         public class RecordListAdapter : RecyclerView.Adapter
         {
             enum ViewType { Header = 0, Item }
 
             private List<HeartRateData> list;
 
-            public override int ItemCount => list.Count + 1;
+            public override int ItemCount => list.Count;
 
             public RecordListAdapter(List<HeartRateData> list)
             {
@@ -128,31 +118,16 @@ namespace RealTimeHR
 
             public override int GetItemViewType(int position)
             {
-                ViewType type = position switch
-                {
-                    0 => ViewType.Header,
-                    _ => ViewType.Item
-                };
-
-                return (int)type;
+                return (int)ViewType.Item;
             }
 
             public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
             {
-                if (position == 0)
-                {
-                    ListHeaderViewHolder vh = holder as ListHeaderViewHolder;
+                RecordListViewHolder vh = holder as RecordListViewHolder;
+                HeartRateData item = list[position];
 
-                    vh.HeaderText.Text = Application.Context.Resources.GetString(Resource.String.recordlist_title);
-                }
-                else
-                {
-                    RecordListViewHolder vh = holder as RecordListViewHolder;
-                    HeartRateData item = list[position - 1];
-
-                    vh.DateTimeText.Text = item.DateTimeData;
-                    vh.HeartRateText.Text = item.HeartRateDate;
-                }
+                vh.DateTimeText.Text = item.DateTimeData;
+                vh.HeartRateText.Text = item.HeartRateDate;
             }
 
             public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -160,17 +135,8 @@ namespace RealTimeHR
                 View view;
                 RecyclerView.ViewHolder vh;
 
-                switch ((ViewType)viewType)
-                {
-                    case ViewType.Header:
-                        view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ListHeaderLayout, parent, false);
-                        vh = new ListHeaderViewHolder(view);
-                        break;
-                    default:
-                        view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.HRRecordItemLayout, parent, false);
-                        vh = new RecordListViewHolder(view);
-                        break;
-                }
+                view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.HRRecordItemLayout, parent, false);
+                vh = new RecordListViewHolder(view);
 
                 return vh;
             }
