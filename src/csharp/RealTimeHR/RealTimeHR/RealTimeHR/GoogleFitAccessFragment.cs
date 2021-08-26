@@ -17,6 +17,7 @@ namespace RealTimeHR
 {
     public class GoogleFitAccessFragment : AndroidX.Fragment.App.Fragment, IActivityResultCallback
     {
+        private const string LOG_TAG = "RealTimeHR_GoogleFitAccess";
         private const int REQUEST_PERMISSION_CODE = 1;
 
         private Button loginButton;
@@ -38,6 +39,8 @@ namespace RealTimeHR
         {
             ActivityResult result = obj as ActivityResult;
 
+            Log.Info(LOG_TAG, $"Google Login Result Code : {result.ResultCode}");
+
             if (result.ResultCode == (int)Result.Ok)
             {
                 if (accountInfoText != null)
@@ -52,6 +55,8 @@ namespace RealTimeHR
         // For request google cloud permissions
         public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
+            Log.Info(LOG_TAG, $"Request Permission Result Code : {resultCode}");
+
             if (requestCode == REQUEST_PERMISSION_CODE)
             {
                 UpdateLoginStatus();
