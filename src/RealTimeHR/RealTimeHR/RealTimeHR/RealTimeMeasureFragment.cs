@@ -1,16 +1,9 @@
 ﻿using Android.App;
-using Android.Hardware;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.Wearable.Activity;
 using Android.Views;
 using Android.Widget;
 
-using AndroidX.Wear.Ambient;
-
 using Com.Airbnb.Lottie;
-
-using System;
 
 using RealTimeHR.Helper;
 

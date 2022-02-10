@@ -3,16 +3,6 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.Wearable.Activity;
-using Android.Views;
-using Android.Widget;
-using AndroidX.Wear;
-using AndroidX.Wear.Ambient;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RealTimeHR
 {
